@@ -1,6 +1,6 @@
 FROM node:11.6.0-alpine
 
-RUN apk add --no-cache build-base
+RUN apk add --no-cache build-base python python-dev
 
 ARG NODE_ENV
 
