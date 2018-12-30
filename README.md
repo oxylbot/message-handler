@@ -1,0 +1,2 @@
+# message-handler [![Build Status](https://travis-ci.com/oxylbot/message-handler.svg?branch=master)](https://travis-ci.com/oxylbot/message-handler)
+Handle messages from Discord (check for censors, spam, etc)
