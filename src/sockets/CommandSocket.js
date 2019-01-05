@@ -14,14 +14,12 @@ class CommandSocket {
 	}
 
 	send(message) {
-		const command = this.proto.Command;
+		const commandProto = this.proto.lookup("Command");
 
-		const verifyError = command.verify(message);
+		const verifyError = commandProto.verify(message);
 		if(verifyError) throw new Error(verifyError);
 
-		const buffer = command.encode(message).finish();
-
-		this.socket.send(buffer);
+		this.socket.send(commandProto.encode(message).finish());
 	}
 
 	close() {

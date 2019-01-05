@@ -17,9 +17,7 @@ class MessageSocket extends EventEmitter {
 	}
 
 	message(message) {
-		const discordMessage = this.proto.DiscordMessage;
-
-		this.emit("message", discordMessage.toObject(discordMessage.decode(message)));
+		this.emit("message", this.proto.lookup("Message").decode(message));
 	}
 
 	close() {
