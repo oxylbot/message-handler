@@ -1,16 +1,15 @@
 const zmq = require("zeromq");
 
 class CommandSocket {
-	constructor(address) {
+	constructor() {
 		this.socket = zmq.socket("push");
-		this.address = address;
 
 		this.proto = null;
 	}
 
 	start(proto) {
 		this.proto = proto;
-		this.socket.connect(this.address);
+		this.socket.connect(`tcp://commands-zmq-proxy:${process.env.COMMANDS_ZMQ_PROXY_SERVICE_PORT_PULL}`);
 	}
 
 	send(message) {

@@ -9,9 +9,9 @@ const BucketClient = require("./sockets/BucketClient");
 const CommandSocket = require("./sockets/CommandSocket");
 const MessageSocket = require("./sockets/MessageSocket");
 
-const bucketClient = new BucketClient(process.env.BUCKET_SOCKET_ADDRESS);
-const commandSocket = new CommandSocket(process.env.COMMAND_SOCKET_ADDRESS);
-const messageSocket = new MessageSocket(process.env.MESSAGE_SOCKET_ADDRESS);
+const bucketClient = new BucketClient();
+const commandSocket = new CommandSocket();
+const messageSocket = new MessageSocket();
 
 async function init() {
 	const rpcProto = await protobuf.load(path.resolve(__dirname, "..", "protobuf", "rpcWrapper.proto"));

@@ -2,18 +2,17 @@ const EventEmitter = require("events");
 const zmq = require("zeromq");
 
 class MessageSocket extends EventEmitter {
-	constructor(address) {
+	constructor() {
 		super();
 		this.socket = zmq.socket("pull");
 		this.socket.on("message", this.message.bind(this));
-		this.address = address;
 
 		this.proto = null;
 	}
 
 	start(proto) {
 		this.proto = proto;
-		this.socket.connect(this.address);
+		this.socket.connect(`tcp://sharder-messages-zmq-proxy:${process.env.SHARDER_MESSAGES_ZMQ_PROXY_SERVICE_PORT_PULL}`);
 	}
 
 	message(message) {
