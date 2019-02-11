@@ -12,7 +12,7 @@ class MessageSocket extends EventEmitter {
 
 	start(proto) {
 		this.proto = proto;
-		this.socket.connect(`tcp://sharder-messages-zmq-proxy:${process.env.SHARDER_MESSAGES_ZMQ_PROXY_SERVICE_PORT_PULL}`);
+		this.socket.connect(`tcp://sharder-messages-zmq-proxy:${process.env.SHARDER_MESSAGES_ZMQ_PROXY_SERVICE_PORT_PUSH}`);
 	}
 
 	message(message) {
