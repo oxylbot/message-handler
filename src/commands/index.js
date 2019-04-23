@@ -10,7 +10,7 @@ module.exports = async (message, commandSocket) => {
 			""),
 	"i");
 
-	const [, command] = message.content.match(prefix) || [null, null];
+	const [,, command] = message.content.match(prefix) || [null, null, null];
 	if(command) {
 		commandSocket.send({
 			id: message.id,
