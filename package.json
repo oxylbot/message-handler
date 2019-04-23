@@ -17,10 +17,11 @@
   },
   "homepage": "https://github.com/oxylbot/message-handler#readme",
   "dependencies": {
+    "protobufjs": "^6.8.8",
     "zeromq": "^5.1.0"
   },
   "devDependencies": {
-    "eslint": "5.13.0",
+    "eslint": "5.14.0",
     "eslint-config-recommended": "4.0.0"
   }
 }
