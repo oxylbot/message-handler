@@ -10,13 +10,13 @@ module.exports = async (message, commandSocket) => {
 			""),
 	"i");
 
-	const [, command] = message.match(prefix) || [null, null];
+	const [, command] = message.content.match(prefix) || [null, null];
 	if(command) {
 		commandSocket.send({
 			id: message.id,
-			channelID: message.channelID,
-			authorID: message.authorID,
-			guildID: message.guildID,
+			channelId: message.channelId,
+			authorId: message.authorId,
+			guildId: message.guildId,
 			command
 		});
 	}
