@@ -6,11 +6,9 @@ const censors = require("./censors/index");
 const spam = require("./spam/index");
 
 const BucketClient = require("./sockets/BucketClient");
-const CommandSocket = require("./sockets/CommandSocket");
 const MessageSocket = require("./sockets/MessageSocket");
 
 const bucketClient = new BucketClient();
-const commandSocket = new CommandSocket();
 const messageSocket = new MessageSocket();
 
 async function init() {
@@ -21,15 +19,12 @@ async function init() {
 		rpc: rpcProto
 	});
 
-	const commandProto = await protobuf.load(path.resolve(__dirname, "..", "protobuf", "Command.proto"));
-	commandSocket.start(commandProto);
-
 	const messageProto = await protobuf.load(path.resolve(__dirname, "..", "protobuf", "DiscordMessage.proto"));
 	messageSocket.start(messageProto);
 	messageSocket.on("message", async message => {
 		let next = await spam(message);
 		if(next) next = await censors(message);
-		if(next) next = await commands(message, commandSocket);
+		if(next) next = await commands(message, bucketClient);
 	});
 }
 
@@ -37,7 +32,6 @@ init();
 
 process.on("SIGTERM", () => {
 	bucketClient.close();
-	commandSocket.close();
 	messageSocket.close();
 
 	process.exit(0);
