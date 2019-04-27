@@ -14,10 +14,10 @@ module.exports = async (message, bucketClient) => {
 			""),
 	"i");
 
-	const [,, command] = message.content.match(prefix) || [null, null, null];
-	if(command) {
+	const [,, stripped] = message.content.match(prefix) || [null, null, null];
+	if(stripped) {
 		await commandParser({
-			strippedContent: message.command,
+			strippedContent: stripped,
 			bucket: bucketClient,
 			channelID: message.channelId,
 			messageID: message.id,
