@@ -4,13 +4,13 @@ const superagent = require("superagent");
 module.exports = {
 	async run(ctx) {
 		const { body: { url: file } } = await superagent.get("https://random.dog/woof.json");
-		const { body: image } = await superagent.get(file);
+		const { body: buffer } = await superagent.get(file);
 
 		await ctx.bucket.request("createChannelMessage", {
 			channelId: ctx.channelID,
 			file: {
 				name: path.basename(file),
-				file: image
+				file: buffer
 			}
 		});
 	},
