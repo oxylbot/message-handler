@@ -1,6 +1,9 @@
 const commandParser = require("./commandParser");
-const prefixRegex = "^((?:<@!?{{id}}>|oxyl),?\s*\s|o(?:xyl)?!{{custom}})(.+)$"
-	.replace("{{id}}", process.env.BOT_ID);
+const prefixRegex = {
+	development: `^((?:<@!?{{id}}>|oxyla),?\s*\s|o(?:xyl)?a!{{custom}})(.+)$`,
+	staging: `^((?:<@!?{{id}}>|oxylb),?\s*\s|o(?:xyl)?b!{{custom}})(.+)$`,
+	production: `^((?:<@!?{{id}}>|oxyl),?\s*\s|o(?:xyl)?!{{custom}})(.+)$`
+}[process.env.NODE_ENV].replace("{{id}}", process.env.BOT_ID);
 
 module.exports = async (message, bucketClient) => {
 	// TODO get the server prefix (if it exists)
