@@ -11,8 +11,13 @@ class Command {
 		this.description = command.description;
 
 		this.aliases = command.aliases || [];
-		this.args = command.args || [];
 		this.guildOnly = !!command.guildOnly;
+		this.args = command.args.map(arg => {
+			if(typeof arg !== "object") arg = { type: arg };
+			if(!arg.label) arg.label = arg.type;
+
+			return arg;
+		}) || [];
 
 		this.runFunction = command.run;
 	}
