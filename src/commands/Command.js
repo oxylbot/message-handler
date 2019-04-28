@@ -28,7 +28,9 @@ class Command {
 				channelId: ctx.channelID,
 				content: "This command only works in guilds"
 			});
-		} else if(this.args.length) {
+		}
+
+		if(this.args.length) {
 			try {
 				ctx.args = await argParser(this, ctx);
 			} catch(err) {
@@ -37,9 +39,10 @@ class Command {
 					content: `Error parsing arguments: ${err.message}`
 				});
 			}
-		} else {
-			await this.runFunction(ctx);
 		}
+
+
+		await this.runFunction(ctx);
 	}
 }
 
