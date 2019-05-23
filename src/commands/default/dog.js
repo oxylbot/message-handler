@@ -7,6 +7,7 @@ module.exports = {
 		const { body: buffer } = await superagent.get(file);
 
 		console.log("packet", {
+			content: "",
 			channelId: ctx.channelID,
 			file: {
 				name: path.basename(file),
@@ -15,6 +16,7 @@ module.exports = {
 		});
 		await ctx.bucket.request("createChannelMessage", {
 			channelId: ctx.channelID,
+			content: "",
 			file: {
 				name: path.basename(file),
 				file: buffer
