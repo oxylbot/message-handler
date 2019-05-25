@@ -8,11 +8,12 @@ module.exports = {
 
 		await ctx.bucket.request("createChannelMessage", {
 			channelId: ctx.channelID,
+			content: "",
 			file: {
 				name: path.basename(file),
 				file: buffer
 			}
 		});
 	},
-	description: "Get a cat picture from <https://random.cat>"
+	description: "Get a bird picture from <https://shibe.online>"
 };

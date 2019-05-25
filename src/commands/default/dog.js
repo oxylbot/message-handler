@@ -6,14 +6,6 @@ module.exports = {
 		const { body: { url: file } } = await superagent.get("https://random.dog/woof.json");
 		const { body: buffer } = await superagent.get(file);
 
-		console.log("packet", {
-			content: "",
-			channelId: ctx.channelID,
-			file: {
-				name: path.basename(file),
-				file: buffer
-			}
-		});
 		await ctx.bucket.request("createChannelMessage", {
 			channelId: ctx.channelID,
 			content: "",
@@ -23,5 +15,5 @@ module.exports = {
 			}
 		});
 	},
-	description: "Get a cat picture from <https://random.dog>"
+	description: "Get a dog picture from <https://random.dog>"
 };

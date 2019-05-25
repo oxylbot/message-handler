@@ -23,6 +23,10 @@ class Command {
 	}
 
 	async run(ctx) {
+		await ctx.bucket.request("triggerTypingIndicator", {
+			channelId: ctx.channelID
+		});
+
 		if(!ctx.guildID && this.guildOnly) {
 			await ctx.bucket.request("createChannelMessage", {
 				channelId: ctx.channelID,

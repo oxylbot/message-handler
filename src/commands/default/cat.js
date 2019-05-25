@@ -8,6 +8,7 @@ module.exports = {
 
 		await ctx.bucket.request("createChannelMessage", {
 			channelId: ctx.channelID,
+			content: "",
 			file: {
 				name: path.basename(file),
 				file: buffer
