@@ -4,13 +4,10 @@ module.exports = async (command, ctx) => {
 	const regex = /(["'])(\\?.)*?\1|[^\s]+/g;
 	const args = [];
 
-	console.log("raw", ctx.rawArgs);
 	for(let i = 0; i < command.args.length; i++) {
 		const commandArg = command.args[i];
-		console.log("carg", commandArg);
 		let [arg] = regex.exec(ctx.rawArgs) || [null];
-		console.log("arg", arg);
-		if(arg.startsWith("\"") && arg.endsWith("\"")) arg = arg.slice(1, -1);
+		if(arg !== null && arg.startsWith("\"") && arg.endsWith("\"")) arg = arg.slice(1, -1);
 
 		const expected = commandArg.label === commandArg.type ?
 			commandArg.label :
