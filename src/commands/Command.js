@@ -33,6 +33,8 @@ class Command {
 				channelId: ctx.channelID,
 				content: "This command only works in guilds"
 			});
+
+			return;
 		}
 
 		ctx.gatewayRequest = gatewayRequest;
@@ -45,6 +47,8 @@ class Command {
 					channelId: ctx.channelID,
 					content: `Error parsing arguments: ${err.message}`
 				});
+
+				return;
 			}
 		}
 
