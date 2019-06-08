@@ -11,7 +11,7 @@ module.exports = async ctx => {
 	if(command === null) return;
 
 	ctx.command = command;
-	ctx.rawArgs = args;
+	ctx.rawArgs = args || "";
 
 	if(commands.has(ctx.command)) commands.get(ctx.command).run(ctx);
 };
