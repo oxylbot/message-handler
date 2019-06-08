@@ -13,10 +13,10 @@ module.exports = async (command, ctx) => {
 			commandArg.label :
 			`${commandArg.label} as ${commandArg.type}`;
 
-		if(arg === null && arg.optional) {
+		if(arg === null && commandArg.optional) {
 			continue;
-		} else if(arg === null && arg.default !== undefined) {
-			arg = arg.default;
+		} else if(arg === null && commandArg.default !== undefined) {
+			arg = commandArg.default;
 		} else if(arg === null) {
 			throw new Error(`Missing argument #${i + 1}; expected ${expected}`);
 		} else if(i === command.args.length - 1) {
