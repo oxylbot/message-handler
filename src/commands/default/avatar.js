@@ -3,14 +3,19 @@ const superagent = require("superagent");
 
 module.exports = {
 	async run(ctx) {
-		const { body: author } = await superagent.get(`/${ctx.authorID}`);
+		const user = ctx.args[0] || await ctx.gatewayRequest().discord().users().get(ctx.authorID);
+		const avatarURL = user.avatar ?
+			`https://cdn.discordapp.com/avatars/${user.id}/` +
+				`${user.avatar}.${user.avatar.startsWith("a_") ? "gif" : "png"}?size=1024` :
+			`https://cdn.discordapp.com/embed/avatars/${parseInt(user.discriminator) % 5}.png`;
 
+		const { body: avatar } = await superagent.get(avatarURL);
 		await ctx.bucket.request("createChannelMessage", {
 			channelId: ctx.channelID,
 			content: "",
 			file: {
-				name: path.basename(file),
-				file: buffer
+				name: path.basename(avatarURL),
+				file: avatar
 			}
 		});
 	},

@@ -21,11 +21,13 @@ module.exports = async (command, ctx) => {
 			arg += ctx.rawArgs.substring(regex.lastIndex);
 		} else {
 			try {
-				args.push(await resolver[commandArg.type](ctx, commandArg, arg));
+				arg = await resolver[commandArg.type](ctx, commandArg, arg);
 			} catch(err) {
 				throw new Error(`Invalid argument #${i + 1} (expected ${expected})\n${err.message}`);
 			}
 		}
+
+		args.push(arg);
 	}
 
 	return args;

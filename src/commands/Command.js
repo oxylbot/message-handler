@@ -1,4 +1,5 @@
 const argParser = require("./args/parser");
+const gatewayRequest = require("../gatewayRequests");
 
 class Command {
 	constructor(command) {
@@ -34,6 +35,8 @@ class Command {
 			});
 		}
 
+		ctx.gatewayRequest = gatewayRequest;
+
 		if(this.args.length) {
 			try {
 				ctx.args = await argParser(this, ctx);
@@ -44,7 +47,6 @@ class Command {
 				});
 			}
 		}
-
 
 		await this.runFunction(ctx);
 	}
