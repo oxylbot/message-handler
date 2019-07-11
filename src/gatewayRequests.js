@@ -196,6 +196,7 @@ class Request {
 
 	then(success, failure) {
 		if(!this.complete) throw new Error("Cannot execute request if it is not valid");
+		console.log("Executing a gateway request: ", this.method, this.url);
 
 		return this.request[this.method](this.url)
 			.set(this.headers)
