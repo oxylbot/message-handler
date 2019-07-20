@@ -1,6 +1,6 @@
 module.exports = async (ctx, arg, input) => {
 	const [, id] = input.match(/<@!?(\d{15,21})>/) || [undefined, undefined];
-	if(id) {
+	if(id || /\d{15,21}/.test(input)) {
 		try {
 			return await ctx.gatewayRequest().discord().users().get(id);
 		} catch(err) {
