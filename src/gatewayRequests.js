@@ -39,6 +39,14 @@ class Request {
 		return new Term(this, ["discord"]);
 	}
 
+	query(key, value) {
+		if(typeof key === "object") Object.assign(this.query, key);
+		else this.query[key] = value;
+
+		this.complete = true;
+		return new Term(this, ["query"]);
+	}
+
 	delete() {
 		this.method = "delete";
 		this.complete = true;
@@ -174,7 +182,7 @@ class Request {
 		return new Term(this, [{
 			use: "get",
 			real: "getUserByID"
-		}]);
+		}, "query"]);
 	}
 
 	getUserByID(id) {
