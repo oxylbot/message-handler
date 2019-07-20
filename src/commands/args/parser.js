@@ -7,7 +7,7 @@ module.exports = async (command, ctx) => {
 	for(let i = 0; i < command.args.length; i++) {
 		const commandArg = command.args[i];
 		let [arg] = regex.exec(ctx.rawArgs) || [null];
-		if(i === command.args.length - 1) arg += ctx.rawArgs.substring(regex.lastIndex);
+		if(i === command.args.length - 1 && arg !== null) arg += ctx.rawArgs.substring(regex.lastIndex);
 		if(arg !== null && arg.startsWith("\"") && arg.endsWith("\"")) arg = arg.slice(1, -1);
 
 		const expected = commandArg.label === commandArg.type ?
