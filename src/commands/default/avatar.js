@@ -6,10 +6,14 @@ module.exports = {
 		console.log("args", ctx.args);
 		const user = ctx.args[0] || await ctx.gatewayRequest().discord().users().get(ctx.authorID);
 		console.log("user", user);
+
+		const basename = user.avatar ?
+			`${user.avatar}.${user.avatar.startsWith("a_") ? "gif" : "png"}` :
+			`${parseInt(user.discriminator) % 5}.png`;
 		const avatarURL = user.avatar ?
 			`https://cdn.discordapp.com/avatars/${user.id}/` +
-				`${user.avatar}.${user.avatar.startsWith("a_") ? "gif" : "png"}?size=1024` :
-			`https://cdn.discordapp.com/embed/avatars/${parseInt(user.discriminator) % 5}.png`;
+				`${basename}?size=1024` :
+			`https://cdn.discordapp.com/embed/avatars/${basename}.png`;
 
 		console.log("avatar", avatarURL);
 		const { body: avatar } = await superagent.get(avatarURL);
@@ -17,7 +21,7 @@ module.exports = {
 			channelId: ctx.channelID,
 			content: "",
 			file: {
-				name: path.basename(avatarURL),
+				name: basename,
 				file: avatar
 			}
 		});
