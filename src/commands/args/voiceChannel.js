@@ -1,5 +1,5 @@
 module.exports = async (ctx, arg, input) => {
-	const [, id] = input.match(/<#(\d{15,21})>/) || [undefined, undefined];
+	const [, id] = input.match(/^<#(\d+)(?::(\d+):([^>]+))?>/) || [undefined, undefined];
 	if(id || /\d{15,21}/.test(input)) {
 		try {
 			const channel = await ctx.gatewayRequest().discord().guilds().get(ctx.guildID).channels().get(id);
