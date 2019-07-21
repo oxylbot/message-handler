@@ -18,7 +18,8 @@ module.exports = async (ctx, arg, input) => {
 			const index = input.lastIndexOf("#");
 			discrim = input.substring(index + 1);
 			input = input.substring(0, index);
-			if(isNaN(discrim) || discrim.length !== 4) discrim = false;
+			if(isNaN(discrim)) discrim = false;
+			else if(discrim.length !== 4) discrim = discrim.padStart(4, "0");
 		}
 
 		let user;
