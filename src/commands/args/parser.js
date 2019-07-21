@@ -24,7 +24,7 @@ module.exports = async (command, ctx) => {
 			try {
 				arg = await resolver[commandArg.type](ctx, commandArg, arg);
 			} catch(err) {
-				throw new Error(`Invalid argument #${i + 1} (expected ${expected})\n${err.message}`);
+				throw new Error(`__Error resolving argument #${i + 1}__ (expected ${expected})\n${err.message}`);
 			}
 		}
 

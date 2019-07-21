@@ -8,15 +8,15 @@ class Term {
 
 		methods.forEach(method => {
 			if(typeof method === "object") {
-				this[method.use] = (...args) => {
+				this[method.use] = ((...args) => {
 					request.complete = false;
 					return request[method.real](...args);
-				};
+				}).bind(request);
 			} else {
-				this[method] = (...args) => {
+				this[method] = ((...args) => {
 					request.complete = false;
 					return request[method](...args);
-				};
+				}).bind(request);
 			}
 		});
 	}

@@ -45,7 +45,7 @@ class Command {
 			} catch(err) {
 				await ctx.bucket.request("createChannelMessage", {
 					channelId: ctx.channelID,
-					content: `Error parsing arguments: ${err.message}`
+					content: err.message
 				});
 
 				return;
