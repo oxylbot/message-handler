@@ -8,15 +8,15 @@ class Term {
 
 		methods.forEach(method => {
 			if(typeof method === "object") {
-				this[method.use] = ((...args) => {
+				this[method.use] = (...args) => {
 					request.complete = false;
 					return request[method.real](...args);
-				}).bind(request);
+				};
 			} else {
-				this[method] = ((...args) => {
+				this[method] = (...args) => {
 					request.complete = false;
 					return request[method](...args);
-				}).bind(request);
+				};
 			}
 		});
 	}
@@ -28,11 +28,11 @@ class Term {
 
 class Request {
 	constructor() {
-		this.url = `${gatewayBaseURL}`;
+		this.url = gatewayBaseURL;
 		this.request = superagent;
 		this.method = "get";
 		this.body = {};
-		this.query = {};
+		this.querystring = {};
 		this.headers = {};
 
 		this.complete = false;
@@ -40,8 +40,8 @@ class Request {
 	}
 
 	query(key, value) {
-		if(typeof key === "object") Object.assign(this.query, key);
-		else this.query[key] = value;
+		if(typeof key === "object") Object.assign(this.querystring, key);
+		else this.querystring[key] = value;
 
 		this.complete = true;
 		return new Term(this, ["query"]);
@@ -207,7 +207,7 @@ class Request {
 
 		return this.request[this.method](this.url)
 			.set(this.headers)
-			.query(this.query)
+			.query(this.querystring)
 			.send(this.body)
 			.then(res => res.body)
 			.then(success, failure);
