@@ -19,6 +19,7 @@
   "dependencies": {
     "protobufjs": "^6.8.8",
     "superagent": "^5.0.5",
+    "twemoji": "^12.1.2",
     "zeromq": "^5.1.0"
   },
   "devDependencies": {
