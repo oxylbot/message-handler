@@ -5,10 +5,11 @@ const { convert: { toCodePoint } } = require("twemoji");
 module.exports = {
 	async run(ctx) {
 		let file;
-		const [, name, id] = ctx.args[0].match(/<:([a-z0-9-_]{2,32}):(\d{17,21})>/i) || [null, null, null];
+		const [, animated, name, id] = ctx.args[0]
+			.match(/<(a)?:([a-z0-9-_]{2,32}):(\d{17,21})>/i) || [null, null, null, null];
 
 		if(name && id) {
-			file = `https://cdn.discordapp.com/emojis/${id}.png`;
+			file = `https://cdn.discordapp.com/emojis/${id}.${animated ? ".gif" : ".png"}`;
 		} else {
 			const codepoint = toCodePoint(ctx.args[0]);
 			file = `https://raw.githubusercontent.com/twitter/twemoji/gh-pages/2/72x72/${codepoint}.png`;
@@ -27,11 +28,14 @@ module.exports = {
 		} catch(err) {
 			await ctx.bucket.request("createChannelMessage", {
 				channelId: ctx.channelID,
-				content: "Error fetching emoji"
+				content: "Error fetching emoji, are you sure you provided"
 			});
 		}
 	},
 	aliases: ["e", "emoji"],
 	description: "Enlarge an emoji",
-	args: [{ type: "text" }]
+	args: [{
+		type: "text",
+		label: "emoji"
+	}]
 };
