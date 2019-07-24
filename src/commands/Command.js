@@ -9,7 +9,6 @@ class Command {
 
 		this.name = command.name;
 		this.type = command.type;
-		this.description = command.description;
 
 		this.aliases = command.aliases || [];
 		this.guildOnly = !!command.guildOnly;
@@ -21,6 +20,18 @@ class Command {
 		});
 
 		this.runFunction = command.run;
+	}
+
+	get usage() {
+		if(!this.args.length) return "";
+		return this.args.reduce((usage, arg) => {
+			if(usage.length) usage += " ";
+			usage += arg.optional ? "[" : "<";
+			usage += arg.label;
+			usage += arg.optional ? "]" : ">";
+
+			return usage;
+		}, "");
 	}
 
 	async run(ctx) {
@@ -52,7 +63,30 @@ class Command {
 			}
 		}
 
-		await this.runFunction(ctx);
+		const result = await this.runFunction(ctx);
+
+		if(result) {
+			const data = {
+				channelId: ctx.channelID,
+				content: ""
+			};
+
+			if(typeof result === "string") {
+				data.content = result.trim();
+			} else if(result.name && result.file) {
+				data.file = {
+					name: result.name,
+					file: result.file
+				};
+			} else if(result.file) {
+				data.file = result.file;
+			}
+
+			if(result.content) data.content = result.content.trim();
+			if(result.embed) data.embed = result.embed;
+
+			await ctx.bucket.request("createChannelMessage", data);
+		}
 	}
 }
 

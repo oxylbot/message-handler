@@ -17,23 +17,15 @@ module.exports = {
 
 		try {
 			const { body: buffer } = await superagent.get(file);
-			await ctx.bucket.request("createChannelMessage", {
-				channelId: ctx.channelID,
-				content: "",
-				file: {
-					name: path.basename(file),
-					file: buffer
-				}
-			});
+			return {
+				name: path.basename(file),
+				file: buffer
+			};
 		} catch(err) {
-			await ctx.bucket.request("createChannelMessage", {
-				channelId: ctx.channelID,
-				content: "Error fetching emoji, are you sure you provided"
-			});
+			return "Error fetching emote, are you sure you provided a proper emote?";
 		}
 	},
 	aliases: ["e", "emoji"],
-	description: "Enlarge an emoji",
 	args: [{
 		type: "text",
 		label: "emoji"

@@ -11,6 +11,7 @@ module.exports = {
 			messageId: msg.id,
 			content: `Pong! ${Date.now() - now}ms`
 		});
-	},
-	description: "Test bot latency"
+
+		return;
+	}
 };
