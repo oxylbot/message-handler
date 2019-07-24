@@ -9,6 +9,7 @@ module.exports = async (command, ctx) => {
 		let [arg] = regex.exec(ctx.rawArgs) || [null];
 		if(i === command.args.length - 1 && arg !== null) arg += ctx.rawArgs.substring(regex.lastIndex);
 		if(arg !== null && arg.startsWith("\"") && arg.endsWith("\"")) arg = arg.slice(1, -1);
+		if(commandArg.lowercase) arg = arg.toLowerCase();
 
 		const expected = commandArg.label === commandArg.type ?
 			commandArg.label :
