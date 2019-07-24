@@ -2,7 +2,9 @@
 
 **Usage**: `{{usage}}`
 
+
 Get an avatar of a user.
+
 
 **Examples**
 

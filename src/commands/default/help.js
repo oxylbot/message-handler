@@ -10,7 +10,7 @@ module.exports = {
 				const file = await fs.readFile(path.resolve(__dirname, "..", "..", "..", "help", `${command.name}.md`), "utf8");
 
 				return file
-					.replace(/\r\n\r\n/g, "\r\n")
+					.replace(/\r?\n\r?\n/g, "\n")
 					.replace("{{command}}", command.aliases.concat(command.name).join(", "))
 					.replace("{{usage}}", `${command.name} ${command.usage}`);
 			} catch(err) {
