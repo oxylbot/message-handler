@@ -12,10 +12,10 @@ module.exports = async ctx => {
 
 	ctx.command = command;
 	ctx.rawArgs = args || "";
+	if(ctx.command === "help") ctx.commands = commands;
 
 	if(commands.has(ctx.command)) commands.get(ctx.command).run(ctx);
 };
-
 
 const commandTypes = ["default"];
 module.exports.registerCommands = async () => {
