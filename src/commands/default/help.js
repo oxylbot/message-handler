@@ -24,7 +24,7 @@ module.exports = {
 			Object.entries(categories).forEach(([category, commandList]) => {
 				if(category === "creator") return;
 
-				helpMsg += `__**${category.charAt(0).toUpperCase() + category.substring(1)}**`;
+				helpMsg += `__**${category.charAt(0).toUpperCase() + category.substring(1)}** `;
 				helpMsg += `(${commandList.length} commands)__\n`;
 				helpMsg += commandList.join(", ");
 				helpMsg += "\n\n";

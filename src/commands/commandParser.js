@@ -17,7 +17,7 @@ module.exports = async ctx => {
 	if(commands.has(ctx.command)) commands.get(ctx.command).run(ctx);
 };
 
-const commandTypes = ["default"];
+const commandTypes = ["default", "moderator", "music"];
 module.exports.registerCommands = async () => {
 	commands.clear();
 
