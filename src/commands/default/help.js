@@ -18,14 +18,14 @@ module.exports = {
 			}
 		} else {
 			const categories = {};
-			let helpMsg;
+			let helpMsg = "";
 
 			commands.forEach(({ type, name }) => categories[type] = (categories[type] || []).concat(name));
 			Object.entries(categories).forEach(([category, commandList]) => {
 				if(category === "creator") return;
 
 				helpMsg += `__**${category.charAt(0).toUpperCase() + category.substring(1)}**`;
-				helpMsg += `(${commandList.size} commands)__\n`;
+				helpMsg += `(${commandList.length} commands)__\n`;
 				helpMsg += commandList.join(", ");
 				helpMsg += "\n\n";
 			});
