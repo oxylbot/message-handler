@@ -1,5 +1,6 @@
 const fs = require("fs").promises;
 const path = require("path");
+const helpFilesPath = path.resolve(__dirname, "..", "..", "..", "help-md-files");
 
 module.exports = {
 	async run({ args: [command], commands }) {
@@ -7,7 +8,7 @@ module.exports = {
 			command = commands.get(command) || [...commands.values()].find(cmd => cmd.aliases.includes(command));
 
 			try {
-				const file = await fs.readFile(path.resolve(__dirname, "..", "..", "..", "help", `${command.name}.md`), "utf8");
+				const file = await fs.readFile(path.resolve(helpFilesPath, command.type, `${command.name}.md`), "utf8");
 
 				return file
 					.replace(/\r?\n\r?\n/g, "\n")
