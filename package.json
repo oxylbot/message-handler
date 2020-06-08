@@ -1,6 +1,6 @@
 {
   "name": "message-handler",
-  "version": "5.0.0",
+  "version": "6.0.0",
   "description": "Message handling",
   "main": "src/index.js",
   "scripts": {
@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/oxylbot/message-handler#readme",
   "dependencies": {
-    "protobufjs": "^6.8.8",
+    "protobufjs": "^6.9.0",
     "superagent": "^5.0.5",
     "twemoji": "^13.0.0",
     "zeromq": "^5.1.0"
