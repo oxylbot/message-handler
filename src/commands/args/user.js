@@ -1,11 +1,17 @@
+const superagent = require("superagent");
+const orchestratorURL = `http://shard-orchestrator:${process.env.SHARD_ORCHESTRATOR_SERVICE_PORT}`;
+
 module.exports = async (ctx, arg, input) => {
 	const [, id] = input.match(/<@!?(\d{15,21})>/) || [undefined, undefined];
-	if(id || /\d{15,21}/.test(input)) {
+	if(id) input = id;
+
+	if(/\d{15,21}/.test(input)) {
 		try {
-			return await ctx.gatewayRequest().discord().users().get(id);
+			return await ctx.bucket.request("getUser", {
+				userId: input
+			});
 		} catch(err) {
-			if(err.resp.status === 404) throw new Error("User not found");
-			else throw err;
+			throw new Error("User not found");
 		}
 	} else {
 		let discrim = false;
@@ -18,17 +24,20 @@ module.exports = async (ctx, arg, input) => {
 			else if(discrim.length !== 4) discrim = discrim.padStart(4, "0");
 		}
 
-		let user;
-		if(discrim) {
-			[user] = await ctx.gatewayRequest().discord().users().query({
-				name: input,
-				discriminator: discrim
+		const { body } = superagent.get(orchestratorURL)
+			.query({
+				id: ctx.guildId,
+				query: input
 			});
-		} else {
-			[user] = await ctx.gatewayRequest().discord().users().query("name", input);
+
+		let member;
+		if(!discrim || body.length === 1) {
+			member = body[0];
+		} else if(discrim) {
+			member = body.find(({ user }) => user.discriminator === discrim);
 		}
 
-		if(user) return user;
-		else throw new Error("User could not be resolved");
+		if(member) return member.user;
+		else throw new Error("User not found");
 	}
 };

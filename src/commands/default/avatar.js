@@ -2,7 +2,7 @@ const superagent = require("superagent");
 
 module.exports = {
 	async run(ctx) {
-		const user = ctx.args[0] || await ctx.gatewayRequest().discord().users().get(ctx.authorID);
+		const user = ctx.args[0] || await ctx.gatewayRequest().discord().users().get(ctx.authorId);
 
 		const basename = user.avatar ?
 			`${user.avatar}.${user.avatar.startsWith("a_") ? "gif" : "png"}` :

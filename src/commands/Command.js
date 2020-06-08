@@ -1,5 +1,4 @@
 const argParser = require("./args/parser");
-const gatewayRequest = require("../gatewayRequests");
 
 class Command {
 	constructor(command) {
@@ -36,26 +35,24 @@ class Command {
 
 	async run(ctx) {
 		await ctx.bucket.request("triggerTypingIndicator", {
-			channelId: ctx.channelID
+			channelId: ctx.channelId
 		});
 
-		if(!ctx.guildID && this.guildOnly) {
+		if(!ctx.guildId && this.guildOnly) {
 			await ctx.bucket.request("createChannelMessage", {
-				channelId: ctx.channelID,
+				channelId: ctx.channelId,
 				content: "This command only works in guilds"
 			});
 
 			return;
 		}
 
-		ctx.gatewayRequest = gatewayRequest;
-
 		if(this.args.length) {
 			try {
 				ctx.args = await argParser(this, ctx);
 			} catch(err) {
 				await ctx.bucket.request("createChannelMessage", {
-					channelId: ctx.channelID,
+					channelId: ctx.channelId,
 					content: err.message
 				});
 
@@ -67,8 +64,9 @@ class Command {
 
 		if(result) {
 			const data = {
-				channelId: ctx.channelID,
-				content: ""
+				channelId: ctx.channelId,
+				content: "",
+				allowedMentions: data.allowedMentions || []
 			};
 
 			if(typeof result === "string") {

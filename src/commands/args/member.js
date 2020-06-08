@@ -1,11 +1,18 @@
+const superagent = require("superagent");
+const orchestratorURL = `http://shard-orchestrator:${process.env.SHARD_ORCHESTRATOR_SERVICE_PORT}`;
+
 module.exports = async (ctx, arg, input) => {
 	const [, id] = input.match(/<@!?(\d{15,21})>/) || [undefined, undefined];
-	if(id) {
+	if(id) input = id;
+
+	if(/\d{15,21}/.test(input)) {
 		try {
-			return await ctx.gatewayRequest().discord().guilds().get(ctx.guildID).members().get(id);
+			return await ctx.bucket.request("getGuildMember", {
+				guildId: ctx.guildId,
+				userId: input
+			});
 		} catch(err) {
-			if(err.resp.status === 404) throw new Error("Member not found");
-			else throw err;
+			throw new Error("Member not found");
 		}
 	} else {
 		let discrim = false;
@@ -17,17 +24,20 @@ module.exports = async (ctx, arg, input) => {
 			if(isNaN(discrim)) discrim = false;
 		}
 
-		let member;
-		if(discrim) {
-			[member] = await ctx.gatewayRequest().discord().guilds().get(ctx.guildID).members().query({
-				name: input,
-				discriminator: discrim
+		const { body } = superagent.get(orchestratorURL)
+			.query({
+				id: ctx.guildId,
+				query: input
 			});
-		} else {
-			[member] = await ctx.gatewayRequest().discord().guilds().get(ctx.guildID).members().query("name", input);
+
+		let member;
+		if(!discrim || body.length === 1) {
+			member = body[0];
+		} else if(discrim) {
+			member = body.find(({ user }) => user.discriminator === discrim);
 		}
 
 		if(member) return member;
-		else throw new Error("Member could not be resolved");
+		else throw new Error("Member not found");
 	}
 };

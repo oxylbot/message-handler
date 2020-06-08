@@ -1,16 +1,17 @@
 module.exports = async (ctx, arg, input) => {
-	const [, id] = input.match(/^<#(\d+)(?::(\d+):([^>]+))?>/) || [undefined, undefined];
-	if(id || /\d{15,21}/.test(input)) {
-		try {
-			return await ctx.gatewayRequest().discord().guilds().get(ctx.guildID).channels().get(id);
-		} catch(err) {
-			if(err.resp.status === 404) throw new Error("Channel not found");
-			else throw err;
-		}
-	} else {
-		const [channel] = await ctx.gatewayRequest().discord().guilds().get(ctx.guildID).channels().query({ name: input });
+	const [, id] = input.match(/<#(\d{17,21})>/) || [undefined, undefined];
+	if(id) input = id;
 
-		if(channel) return channel;
-		else throw new Error("Could not resolve channel");
+	if(!("channels" in ctx.cache)) {
+		const resp = await ctx.bucket.request("getGuildChannels", {
+			guildId: ctx.guildId
+		});
+
+		ctx.cache.channels = resp.channels;
 	}
+
+	const channel = ctx.cache.channels.find(({ id, name }) => id === input || name === input);
+
+	if(channel) return channel;
+	else throw new Error("Channel not found");
 };

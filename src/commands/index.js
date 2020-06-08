@@ -19,10 +19,11 @@ module.exports = async (message, bucketClient) => {
 		await commandParser({
 			strippedContent: stripped,
 			bucket: bucketClient,
-			channelID: message.channelId,
-			messageID: message.id,
-			authorID: message.authorId,
-			guildID: message.guildId
+			channelId: message.channelId,
+			messageId: message.id,
+			authorId: message.authorId,
+			guildId: message.guildId,
+			cache: {}
 		});
 	}
 };
