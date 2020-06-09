@@ -1,6 +1,6 @@
 module.exports = async (ctx, arg, input) => {
-	const [, id] = input.match(/<#(\d{17,21})>/) || [undefined, undefined];
-	if(id) input = id;
+	const [, matchedId] = input.match(/<#(\d{17,21})>/) || [undefined, undefined];
+	if(matchedId) input = matchedId;
 
 	if(!("channels" in ctx.cache)) {
 		const resp = await ctx.bucket.request("getGuildChannels", {
