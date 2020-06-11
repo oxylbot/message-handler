@@ -4,7 +4,6 @@ class Command {
 	constructor(command) {
 		if(!command.name) throw new Error("Command has no name");
 		else if(!command.run) throw new Error(`Command ${command.name} must have a run function`);
-		else if(!command.description) console.warn(`Command ${command.name} has no description`);
 
 		this.name = command.name;
 		this.type = command.type;
@@ -66,7 +65,7 @@ class Command {
 			const data = {
 				channelId: ctx.channelId,
 				content: "",
-				allowedMentions: data.allowedMentions || []
+				allowedMentions: result.allowedMentions || []
 			};
 
 			if(typeof result === "string") {

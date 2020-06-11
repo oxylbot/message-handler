@@ -10,6 +10,5 @@ module.exports = {
 			name: path.basename(file),
 			file: buffer
 		};
-	},
-	description: "Get a dog picture from <https://random.dog>"
+	}
 };
