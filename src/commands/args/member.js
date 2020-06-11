@@ -24,7 +24,7 @@ module.exports = async (ctx, arg, input) => {
 			if(isNaN(discrim)) discrim = false;
 		}
 
-		const { body } = superagent.get(orchestratorURL)
+		const { body } = await superagent.get(orchestratorURL)
 			.query({
 				id: ctx.guildId,
 				query: input

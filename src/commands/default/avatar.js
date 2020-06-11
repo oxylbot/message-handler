@@ -1,8 +1,13 @@
 const superagent = require("superagent");
+const orchestratorURL = `http://shard-orchestrator:${process.env.SHARD_ORCHESTRATOR_SERVICE_PORT}`;
 
 module.exports = {
 	async run(ctx) {
-		const user = ctx.args[0] || await ctx.gatewayRequest().discord().users().get(ctx.authorId);
+		const user = ctx.args[0] || (await superagent.get(orchestratorURL)
+			.query({
+				id: ctx.guildId,
+				userIds: [ctx.authorId]
+			})).user;
 
 		const basename = user.avatar ?
 			`${user.avatar}.${user.avatar.startsWith("a_") ? "gif" : "png"}` :

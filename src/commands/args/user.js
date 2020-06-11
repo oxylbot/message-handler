@@ -24,7 +24,7 @@ module.exports = async (ctx, arg, input) => {
 			else if(discrim.length !== 4) discrim = discrim.padStart(4, "0");
 		}
 
-		const { body } = superagent.get(orchestratorURL)
+		const { body } = await superagent.get(orchestratorURL)
 			.query({
 				id: ctx.guildId,
 				query: input
