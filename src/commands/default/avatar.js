@@ -3,7 +3,7 @@ const orchestratorURL = `http://shard-orchestrator:${process.env.SHARD_ORCHESTRA
 
 module.exports = {
 	async run(ctx) {
-		const user = ctx.args[0] || (await superagent.get(orchestratorURL)
+		const user = ctx.args[0] || (await superagent.get(`${orchestratorURL}/request-guild-members`)
 			.query({
 				id: ctx.guildId,
 				userIds: [ctx.authorId]
