@@ -18,6 +18,11 @@ module.exports = {
 				`${basename}?size=1024` :
 			`https://cdn.discordapp.com/embed/avatars/${basename}`;
 
+		ctx.logger.verbose("Requesting avatar", {
+			avatarURL,
+			user
+		});
+
 		const { body: avatar } = await superagent.get(avatarURL);
 		return {
 			name: basename,

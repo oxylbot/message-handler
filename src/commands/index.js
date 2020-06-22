@@ -1,4 +1,6 @@
 const commandParser = require("./commandParser");
+const logger = require("../logger");
+
 const prefixRegex = {
 	development: `^((?:<@!?{{id}}>|oxyla),?\s*\s|o(?:xyl)?a!{{custom}})(.+)$`,
 	staging: `^((?:<@!?{{id}}>|oxylb),?\s*\s|o(?:xyl)?b!{{custom}})(.+)$`,
@@ -23,7 +25,8 @@ module.exports = async (message, bucketClient) => {
 			messageId: message.id,
 			authorId: message.authorId,
 			guildId: message.guildId,
-			cache: {}
+			cache: {},
+			logger
 		});
 	}
 };

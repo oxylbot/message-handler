@@ -1,3 +1,4 @@
+const logger = require("./logger");
 const path = require("path");
 const protobuf = require("protobufjs");
 
@@ -13,15 +14,21 @@ const messageSocket = new MessageSocket();
 
 async function init() {
 	const rpcProto = await protobuf.load(path.resolve(__dirname, "..", "bucket-proto", "rpcWrapper.proto"));
+	logger.info("Loaded bucket RPC prototype");
 	const discordProto = await protobuf.load(path.resolve(__dirname, "..", "bucket-proto", "service.proto"));
+	logger.info("Loaded discord bucket prototype");
 	bucketClient.start({
 		discord: discordProto,
 		rpc: rpcProto
 	});
+	logger.info("Started bucket socket");
 
 	const messageProto = await protobuf.load(path.resolve(__dirname, "..", "protobuf", "DiscordMessage.proto"));
+	logger.info("Loaded message prototype");
 	messageSocket.start(messageProto);
+	logger.info("Started message socket");
 	messageSocket.on("message", async message => {
+		logger.verbose("Received message from socket", { message });
 		let next = await spam(message);
 		if(next) next = await censors(message);
 		if(next) next = await commands(message, bucketClient);
@@ -30,14 +37,15 @@ async function init() {
 
 init();
 
-process.on("unhandledRejection", err => {
-	console.error(err.stack);
+process.on("unhandledRejection", error => {
+	logger.error(error.stack, { error });
 	process.exit(1);
 });
 
 process.on("SIGTERM", () => {
 	bucketClient.close();
 	messageSocket.close();
+	logger.info("Sockets closed due to SIGTERM");
 
 	process.exit(0);
 });

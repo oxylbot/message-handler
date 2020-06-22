@@ -10,9 +10,11 @@ module.exports = {
 
 		if(name && id) {
 			file = `https://cdn.discordapp.com/emojis/${id}.${animated ? ".gif" : ".png"}`;
+			ctx.logger.verbose("Requesting Discord Emoji", { url: file });
 		} else {
 			const codepoint = toCodePoint(ctx.args[0]);
 			file = `https://raw.githubusercontent.com/twitter/twemoji/gh-pages/v/13.0.0/72x72/${codepoint}.png`;
+			ctx.logger.verbose("Requesting twemoji", { url: file });
 		}
 
 		try {

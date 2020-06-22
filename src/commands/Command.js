@@ -1,4 +1,5 @@
 const argParser = require("./args/parser");
+const logger = require("../logger");
 
 class Command {
 	constructor(command) {
@@ -18,6 +19,7 @@ class Command {
 		});
 
 		this.runFunction = command.run;
+		logger.info(`Created command ${this.name}`, { command: this });
 	}
 
 	get usage() {
@@ -60,6 +62,7 @@ class Command {
 		}
 
 		const result = await this.runFunction(ctx);
+		logger.debug(`Executed ${this.name}`, { result });
 
 		if(result) {
 			const data = {
