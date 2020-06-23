@@ -14,7 +14,12 @@ module.exports = async ctx => {
 	ctx.rawArgs = args || "";
 	if(ctx.command === "help") ctx.commands = commands;
 
-	ctx.logger.debug(`Attempting to run ${command}`, { ctx });
+	ctx.logger.debug(`Attempting to run ${command}`, {
+		command,
+		rawArgs: ctx.rawArgs,
+		strippedContent: ctx.strippedContent
+	});
+
 	if(commands.has(ctx.command)) commands.get(ctx.command).run(ctx);
 };
 

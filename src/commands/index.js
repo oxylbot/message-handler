@@ -29,6 +29,8 @@ module.exports = async (message, bucketClient) => {
 			logger
 		});
 	}
+
+	return true;
 };
 
 commandParser.registerCommands();
