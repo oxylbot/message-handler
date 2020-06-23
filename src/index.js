@@ -28,7 +28,7 @@ async function init() {
 	messageSocket.start(messageProto);
 	logger.info("Started message socket");
 	messageSocket.on("message", async message => {
-		logger.verbose("Received message from socket", { message });
+		logger.debug("Received message from socket", { socketMessage: message });
 		let next = await spam(message);
 		if(next) next = await censors(message);
 		if(next) next = await commands(message, bucketClient);
@@ -38,7 +38,7 @@ async function init() {
 init();
 
 process.on("unhandledRejection", error => {
-	logger.error(error.stack, { error });
+	logger.error(error.message, { error });
 	process.exit(1);
 });
 
