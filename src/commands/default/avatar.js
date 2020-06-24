@@ -1,13 +1,8 @@
-const superagent = require("superagent");
-const orchestratorURL = `http://shard-orchestrator:${process.env.SHARD_ORCHESTRATOR_SERVICE_PORT}`;
+const userResolver = require("../args/user");
 
 module.exports = {
 	async run(ctx) {
-		const user = ctx.args[0] || (await superagent.get(`${orchestratorURL}/request-guild-members`)
-			.query({
-				id: ctx.guildId,
-				userIds: [ctx.authorId]
-			})).user;
+		const user = ctx.args[0] || await userResolver(ctx, null, ctx.authorId);
 
 		const basename = user.avatar ?
 			`${user.avatar}.${user.avatar.startsWith("a_") ? "gif" : "png"}` :
