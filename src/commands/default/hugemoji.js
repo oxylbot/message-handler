@@ -9,7 +9,7 @@ module.exports = {
 			.match(/<(a)?:([a-z0-9-_]{2,32}):(\d{17,21})>/i) || [null, null, null, null];
 
 		if(name && id) {
-			file = `https://cdn.discordapp.com/emojis/${id}.${animated ? ".gif" : ".png"}`;
+			file = `https://cdn.discordapp.com/emojis/${id}.${animated ? "gif" : "png"}`;
 			ctx.logger.verbose("Requesting Discord Emoji", { url: file });
 		} else {
 			const codepoint = toCodePoint(ctx.args[0]);
