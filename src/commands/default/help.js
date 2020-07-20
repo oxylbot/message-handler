@@ -21,7 +21,15 @@ module.exports = {
 			const categories = {};
 			let helpMsg = "";
 
-			commands.forEach(({ type, name }) => categories[type] = (categories[type] || []).concat(name));
+			for(const [key, { type, name }] of commands) {
+				if(key !== name) continue;
+				if(!Object.prototype.hasOwnProperty.call(categories, type)) {
+					categories[type] = [name];
+				} else {
+					categories[type].push(name);
+				}
+			}
+
 			Object.entries(categories).forEach(([category, commandList]) => {
 				if(category === "creator") return;
 
