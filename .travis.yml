@@ -6,7 +6,7 @@ services:
 
 language: node_js
 node_js:
- - "v14.5.0"
+ - "v14.6.0"
 cache: npm
 
 git:
