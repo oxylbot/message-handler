@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/oxylbot/message-handler#readme",
   "dependencies": {
-    "protobufjs": "^6.10.2",
+    "protobufjs": "^6.11.3",
     "superagent": "^6.1.0",
     "twemoji": "^13.0.1",
     "winston": "^3.3.3",
